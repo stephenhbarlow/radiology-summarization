@@ -22,16 +22,29 @@ def bleu_score(reference: str, output: str) -> dict:
     return {"bleu": score / 100.0}
 
 
-_rouge = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=True)
-
 def rouge_l_score(reference: str, output: str) -> dict:
     """
     Statistical metric: measures longest common subsequence.
     Good for: summarization tasks, keyword preservation.
     Bad for: restructured but semantically identical answers.
     """
+    _rouge = rouge_scorer.RougeScorer(["rougeL"], use_stemmer=True)
     scores = _rouge.score(reference, output)
     return {"rouge_l": scores["rougeL"].fmeasure}
+
+
+def rouge_1_scores(reference: str, output: str) -> dict:
+
+    _rouge = rouge_scorer.RougeScorer(["rouge1"], use_stemmer=True)
+    scores = _rouge.score(reference, output)
+    return {"rouge_1": scores["rouge1"].fmeasure}
+
+
+def rouge_2_scores(reference: str, output: str) -> dict:
+
+    _rouge = rouge_scorer.RougeScorer(["rouge2"], use_stemmer=True)
+    scores = _rouge.score(reference, output)
+    return {"rouge_2": scores["rouge2"].fmeasure}
 
 
 def bert_score(reference: str, output: str) -> dict:
